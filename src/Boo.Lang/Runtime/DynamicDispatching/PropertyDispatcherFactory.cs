@@ -28,9 +28,6 @@
 
 using System;
 using System.Collections.Generic;
-#if DNXCORE50
-using System.Linq;
-#endif
 using System.Reflection;
 
 namespace Boo.Lang.Runtime.DynamicDispatching
@@ -53,12 +50,7 @@ namespace Boo.Lang.Runtime.DynamicDispatching
 
 		private Dispatcher Create(SetOrGet gos)
 		{
-#if !DNXCORE50
-			MemberInfo[] candidates = _type.GetMember(_name, MemberTypes.Property|MemberTypes.Field, RuntimeServices.DefaultBindingFlags);
-#else
-		    MemberInfo[] candidates = _type.GetMember(_name, RuntimeServices.DefaultBindingFlags);
-		    candidates = candidates.Where((v) => v.MemberType == MemberTypes.Property || v.MemberType == MemberTypes.Field).ToArray();
-#endif
+			MemberInfo[] candidates = _type.GetMember(_name, MemberTypes.Property | MemberTypes.Field, RuntimeServices.DefaultBindingFlags);
 			if (candidates.Length == 0) return FindExtension(GetCandidateExtensions(gos));
 			if (candidates.Length > 1) throw new AmbiguousMatchException(Builtins.join(candidates, ", "));
 			return EmitDispatcherFor(candidates[0], gos);
@@ -99,15 +91,11 @@ namespace Boo.Lang.Runtime.DynamicDispatching
 
 		private Dispatcher EmitFieldDispatcher(FieldInfo field, SetOrGet gos)
 		{
-#if NO_SYSTEM_REFLECTION_EMIT
-			return ReflectionBasedFieldDispatcherFor(field, gos);
-#else
 			if (field.IsLiteral)
 				return ReflectionBasedFieldDispatcherFor(field, gos);
 			return SetOrGet.Get == gos
 				? new Emitters.GetFieldEmitter(field).Emit()
 				: new Emitters.SetFieldEmitter(field, GetArgumentTypes()[0]).Emit();
-#endif
 		}
 
 		static Dispatcher ReflectionBasedFieldDispatcherFor(FieldInfo field, SetOrGet gos)
@@ -136,27 +124,8 @@ namespace Boo.Lang.Runtime.DynamicDispatching
 			CandidateMethod found = ResolveMethod(argumentTypes, new MethodInfo[] { accessor });
 			if (null == found) throw MissingField();
 
-#if NO_SYSTEM_REFLECTION_EMIT
-			switch (gos)
-			{
-				case SetOrGet.Get:
-					return (target, args) => property.GetValue(target, args);
-				case SetOrGet.Set:
-					return (target, args) =>
-					       	{
-								var value = args[args.Length - 1];
-								var remainingArgs = new object[args.Length - 1];
-								Array.Copy(args, remainingArgs, remainingArgs.Length);
-								property.SetValue(target, RuntimeServices.Coerce(value, property.PropertyType), remainingArgs);
-								return value;
-					       	};
-				default:
-					throw new ArgumentException();
-			}
-#else
 			if (SetOrGet.Get == gos) return new Emitters.MethodDispatcherEmitter(_type, found, argumentTypes).Emit();
 			return new Emitters.SetPropertyEmitter(_type, found, argumentTypes).Emit();
-#endif
 		}
 	}
 }

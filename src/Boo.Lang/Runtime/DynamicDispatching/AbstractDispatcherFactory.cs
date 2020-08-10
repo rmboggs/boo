@@ -81,11 +81,7 @@ namespace Boo.Lang.Runtime.DynamicDispatching
 
 		protected Dispatcher EmitExtensionDispatcher(CandidateMethod found)
 		{
-#if NO_SYSTEM_REFLECTION_EMIT
-			return (target, args) => found.DynamicInvoke(null, AdjustExtensionArgs(target, args));
-#else
 			return new Emitters.ExtensionMethodDispatcherEmitter(found, GetArgumentTypes()).Emit();
-#endif
 		}
 
 		protected CandidateMethod ResolveExtension(IEnumerable<MethodInfo> candidates)

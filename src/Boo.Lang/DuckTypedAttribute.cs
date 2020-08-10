@@ -34,9 +34,7 @@ namespace Boo.Lang
 	/// Marks a method, property or field as being duck typed for type
 	/// inference purposes.
 	/// </summary>
-#if !NO_SERIALIZATION_INFO
 	[Serializable]
-#endif
 	[AttributeUsage(AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Field)]
 	public class DuckTypedAttribute : Attribute
 	{

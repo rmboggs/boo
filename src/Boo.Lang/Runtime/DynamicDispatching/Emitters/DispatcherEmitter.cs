@@ -26,8 +26,6 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#if !NO_SYSTEM_REFLECTION_EMIT
-
 using System;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -65,11 +63,7 @@ namespace Boo.Lang.Runtime.DynamicDispatching.Emitters
 
 		protected void EmitCastOrUnbox(Type type)
 		{
-#if !DNXCORE50
-		    if (type.IsValueType)
-#else
-            if (type.GetTypeInfo().IsValueType)
-#endif
+			if (type.IsValueType)
 			{
 				_il.Emit(OpCodes.Unbox, type);
 				_il.Emit(OpCodes.Ldobj, type);
@@ -82,11 +76,7 @@ namespace Boo.Lang.Runtime.DynamicDispatching.Emitters
 
 		protected void BoxIfNeeded(Type returnType)
 		{
-#if !DNXCORE50
-		    if (returnType.IsValueType)
-#else
-		    if (returnType.GetTypeInfo().IsValueType)
-#endif
+			if (returnType.IsValueType)
 			{
 				_il.Emit(OpCodes.Box, returnType);
 			}
@@ -95,11 +85,7 @@ namespace Boo.Lang.Runtime.DynamicDispatching.Emitters
 		protected void EmitLoadTargetObject(Type expectedType)
 		{
 			_il.Emit(OpCodes.Ldarg_0); // target object is the first argument
-#if !DNXCORE50
-		    if (expectedType.IsValueType)
-#else
-		    if (expectedType.GetTypeInfo().IsValueType)
-#endif
+			if (expectedType.IsValueType)
 			{
 				_il.Emit(OpCodes.Unbox, expectedType);
 			}
@@ -205,4 +191,3 @@ namespace Boo.Lang.Runtime.DynamicDispatching.Emitters
 		}
 	}
 }
-#endif

@@ -28,9 +28,7 @@
 
 using System;
 using System.Collections;
-#if !NO_SERIALIZATION_INFO
-    using System.Runtime.Serialization;
-#endif
+using System.Runtime.Serialization;
 using Boo.Lang.Runtime;
 
 namespace Boo.Lang
@@ -38,9 +36,7 @@ namespace Boo.Lang
 	/// <summary>
 	/// Hash.
 	/// </summary>
-#if !NO_SERIALIZATION_INFO
 	[Serializable]
-#endif
 	[EnumeratorItemType(typeof(DictionaryEntry))]
 	public class Hash : Hashtable, IEquatable<Hash>
 	{
@@ -72,20 +68,13 @@ namespace Boo.Lang
 				Add(tuple.GetValue(0), tuple.GetValue(1));
 			}
 		}
-
-#if !DNXCORE50
 		public Hash(bool caseInsensitive) : base(StringComparer.InvariantCultureIgnoreCase)
-#else
-	    public Hash(bool caseInsensitive) : base(StringComparer.OrdinalIgnoreCase)
-#endif
 		{
 		}
 
-#if !NO_SERIALIZATION_INFO
 		public Hash(SerializationInfo info, StreamingContext context) : base(info, context)
 		{
 		}
-#endif
 
 		override public object Clone()
 		{

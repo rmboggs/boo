@@ -26,11 +26,7 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#if !NO_SYSTEM_REFLECTION_EMIT
 using System;
-#if DNXCORE50
-using System.Reflection;
-#endif
 using System.Reflection.Emit;
 
 namespace Boo.Lang.Runtime.DynamicDispatching.Emitters
@@ -122,15 +118,9 @@ namespace Boo.Lang.Runtime.DynamicDispatching.Emitters
 
 		static OpCode GetStoreElementOpCode(Type type)
 		{
-#if !DNXCORE50
 			if (type.IsValueType)
 			{
 				if (type.IsEnum) return OpCodes.Stelem_I4;
-#else
-		    if (type.GetTypeInfo().IsValueType)
-		    {
-		        if (type.GetTypeInfo().IsEnum) return OpCodes.Stelem_I4;
-#endif
 
 				switch (Type.GetTypeCode(type))
 				{
@@ -175,4 +165,3 @@ namespace Boo.Lang.Runtime.DynamicDispatching.Emitters
 		}
 	}
 }
-#endif

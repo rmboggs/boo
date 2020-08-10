@@ -30,9 +30,7 @@ namespace Boo.Lang
 	/// 
 	/// See Boo.Lang.Compiler.TypeSystem.Services.InvocationTypeInferenceRules.BuiltinRules.
 	/// </summary>
-#if !NO_SERIALIZATION_INFO
 	[Serializable]
-#endif
 	[AttributeUsage(AttributeTargets.Method)]
 	public class TypeInferenceRuleAttribute : Attribute
 	{

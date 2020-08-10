@@ -99,22 +99,12 @@ namespace Boo.Lang.Runtime.DynamicDispatching
 			CandidateMethod method = ResolveMethod(GetArgumentTypes(), candidates);
 			if (null == method) throw MissingField();
 
-#if NO_SYSTEM_REFLECTION_EMIT
-			return method.DynamicInvoke;
-#else
 			return new Emitters.MethodDispatcherEmitter(_type, method, GetArgumentTypes()).Emit();
-#endif
 		}
 
 		private MemberInfo[] ResolveMember()
 		{
-#if !DNXCORE50
 			MemberInfo[] candidates = _type.GetMember(_name, MemberTypes.Property | MemberTypes.Field, RuntimeServices.DefaultBindingFlags);
-#else
-		    MemberInfo[] candidates = _type.GetMember(_name, RuntimeServices.DefaultBindingFlags);
-		    candidates = candidates.Where((v) => v.MemberType == MemberTypes.Property || v.MemberType == MemberTypes.Field)
-		        .ToArray();
-#endif
 			if (candidates.Length == 0) throw MissingField();
 			return candidates;
 		}

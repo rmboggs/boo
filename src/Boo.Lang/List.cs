@@ -31,9 +31,7 @@ namespace Boo.Lang
 	using System;
 	using System.Collections;
 
-#if !NO_SERIALIZATION_INFO
-    [Serializable]
-#endif
+	[Serializable]
 	public class List : List<object>
 	{
 		public static string operator%(string format, List rhs)

@@ -36,9 +36,7 @@ namespace Boo.Lang
 {
 	public delegate TResult Function<in T1, out TResult>(T1 arg);
 
-#if !NO_SERIALIZATION_INFO
-    [Serializable]
-#endif
+	[Serializable]
 	public class List<T> : IList<T>, IList, IEquatable<List<T>>
 	{
 		private static readonly T[] EmptyArray = new T[0];

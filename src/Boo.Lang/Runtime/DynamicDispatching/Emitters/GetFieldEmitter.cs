@@ -26,7 +26,6 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#if !NO_SYSTEM_REFLECTION_EMIT
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
@@ -61,4 +60,3 @@ namespace Boo.Lang.Runtime.DynamicDispatching.Emitters
 		}
 	}
 }
-#endif

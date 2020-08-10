@@ -220,8 +220,6 @@ namespace Boo.Lang
 		{
 			return RuntimeServices.GetEnumerable(enumerable);
 		}
-
-#if !NO_SYSTEM_PROCESS
 		public static System.Diagnostics.Process shellp(string filename, string arguments)
 		{
 			var p = new System.Diagnostics.Process();
@@ -243,7 +241,6 @@ namespace Boo.Lang
 			p.WaitForExit();
 			return output;
 		}
-#endif
 
 		public static IEnumerable<object[]> enumerate(object enumerable)
 		{

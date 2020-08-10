@@ -27,31 +27,23 @@
 #endregion
 
 using System;
-#if !NO_SERIALIZATION_INFO
 using System.Runtime.Serialization;
-#endif
 
 namespace Boo.Lang.Runtime
 {
-	/// <summary>
-	/// Base exception for the Boo runtime.
-	/// </summary>
-#if !NO_SERIALIZATION_INFO
-	[Serializable]
-#endif
-	public class RuntimeException : System.Exception
-	{
-		public RuntimeException(string message) : base(message)
-		{
-		}
-
-#if !NO_SERIALIZATION_INFO
-		protected RuntimeException(
-			SerializationInfo si, StreamingContext sc) : base(si, sc)
-		{
-		}
-#endif
-	}
+    /// <summary>
+    /// Base exception for the Boo runtime.
+    /// </summary>
+    [Serializable]
+    public class RuntimeException : System.Exception
+    {
+        public RuntimeException(string message) : base(message)
+        {
+        }
+        protected RuntimeException(SerializationInfo si, StreamingContext sc) : base(si, sc)
+        {
+        }
+    }
 }
 
 
