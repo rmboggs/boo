@@ -1,9 +1,0 @@
-bin
-obj
-*.userprefs
-.idea/
-.vscode/
-**/.idea/
-**/.vscode/
-packages
-.nuget
