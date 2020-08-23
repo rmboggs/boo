@@ -108,12 +108,8 @@ namespace Boo.Lang.Compiler
 			_outputWriter = Console.Out;
 			Debug = true;
 			Checked = true;
-#if !NET_40_OR_GREATER
-            GenerateCollectible = false;
-#else
-            GenerateCollectible = true;
-#endif
-            GenerateInMemory = true;
+			GenerateCollectible = true;
+			GenerateInMemory = true;
 			StdLib = true;
 			DelaySign = false;
 
@@ -330,9 +326,6 @@ namespace Boo.Lang.Compiler
 
 		private static string pkgconfig(string package)
 		{
-#if NO_SYSTEM_PROCESS
-	        throw new System.NotSupportedException();
-#else
 			Process process;
 			try
 			{
@@ -348,7 +341,6 @@ namespace Boo.Lang.Compiler
 				throw new ApplicationException(string.Format(StringResources.BooC_PkgConfigReportedErrors, process.StandardError.ReadToEnd()));
 			}
 			return process.StandardOutput.ReadToEnd();
-#endif
 		}
 
 		private static string GetSystemDir()

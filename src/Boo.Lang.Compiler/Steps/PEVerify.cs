@@ -36,8 +36,7 @@ namespace Boo.Lang.Compiler.Steps
 	public class PEVerify : AbstractCompilerStep
 	{
 		override public void Run()
-		{			
-#if !NO_SYSTEM_PROCESS
+		{
 			if (Errors.Count > 0)
 				return;
 
@@ -69,10 +68,8 @@ namespace Boo.Lang.Compiler.Steps
 				Warnings.Add(new CompilerWarning("Could not start " + command));      
 				Context.TraceWarning("Could not start " + command +" : " + e.Message);
 			}
-#endif
 		}
 		
-#if !NO_SYSTEM_PROCESS
 		public Process StartProcess(string workingdir, string filename, string arguments)
 		{
 			var p = new Process
@@ -101,6 +98,5 @@ namespace Boo.Lang.Compiler.Steps
 			p.Start();
 			return p;
 		}
-#endif
 	}
 }
